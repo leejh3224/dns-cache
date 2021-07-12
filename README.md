@@ -26,8 +26,3 @@ timeout 에러가 재현됨. 그러므로 axios timeout 에러의 원인은 dns 
 
 3. http keep-alive agent 사용
 
-    여러 조합으로 사용해보았으나 native `http.Agent`와 `agentkeepalive` 라이브러리 간의 차이는 미미한듯 하고,
-
-    `keep-alive`, `dns cache`, `keep-alive + dns cache` 세 조합을 비교해보면
-
-    `dns cache`만 쓰는 쪽이 가장 에러 비율이 작음.
