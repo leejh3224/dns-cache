@@ -1,7 +1,7 @@
 const express = require('express')
 const CacheableLookup = require('cacheable-lookup')
 
-const cacheable = new CacheableLookup()
+const cacheable = new CacheableLookup({ maxTtl: 10 })
 
 const app = express()
 

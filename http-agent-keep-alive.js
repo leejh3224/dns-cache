@@ -5,20 +5,26 @@ const CacheableLookup = require('cacheable-lookup')
 
 const app = express()
 const cacheable = new CacheableLookup()
+cacheable.install(https.globalAgent)
 
 let requests = 0
 let errors = 0
+const client = axios.create({
+    timeout: 3 * 1000,
+    httpsAgent: new https.Agent({ 
+        keepAlive: true,
+        maxSockets: 100,
+        maxFreeSockets: 10,
+        timeout: 35 * 1000,
+        freeSocketTimeout: 15 * 1000
+    }),
+})
 
 app.get('/dns-lookup', async (req, res) => {
     requests++
-    const client = axios.create({
-        timeout: 3 * 1000,
-        httpsAgent: new https.Agent({ 
-            keepAlive: true,
-            lookup: cacheable.lookup
-        }),
+    await client.get('https://account.zigbang.net').catch((e) => {
+        errors++
     })
-    await client.get('https://account.zigbang.com').catch((e) => errors++)
     res.status(200).end()
 })
 

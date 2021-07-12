@@ -14,7 +14,7 @@ app.get('/dns-lookup', async (req, res) => {
     const client = axios.create({
         timeout: 3 * 1000,
         httpsAgent: new HttpsAgent({
-            // lookup: cacheable.lookup
+            lookup: cacheable.lookup
         }),
     })
     await client.get('https://account.zigbang.com').catch((e) => errors++)
